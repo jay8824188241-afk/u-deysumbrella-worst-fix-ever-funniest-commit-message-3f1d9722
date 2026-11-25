@@ -13,8 +13,10 @@ const back = readFileSync("/output/entry.txt", "utf8");
 if (back !== ENTRY) {
   throw new Error("entry.txt does not match the expected line");
 }
-if (back.length < 1 || back.length > 100) {
-  throw new Error(`entry length ${back.length} is outside 1..100`);
+if (Buffer.byteLength(back, "utf8") !== 64) {
+  throw new Error(
+    `entry must be exactly 64 bytes, got ${Buffer.byteLength(back, "utf8")}`,
+  );
 }
 if (back.trim().length === 0) {
   throw new Error("entry is only whitespace");
